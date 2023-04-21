@@ -1,13 +1,14 @@
-import { View, Text, FlatList, StyleSheet} from 'react-native'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import MyButton from './MyButton'
 import ListItem from './ListItem'
+import Settings from '../assets/Settings.json'
 
 export default function Users() {
   const [allData, setAllData] = useState([])
   const getAllUsersData = async () => {
     try {
-      const response = await fetch("http://192.168.56.1:5000/getAllUsersData");
+      const response = await fetch(`${Settings.adress}/getAllUsersData`);
       const json = await response.json();
       setAllData(json)
     } catch (error) {
@@ -24,27 +25,27 @@ export default function Users() {
   useEffect(() => {
     getAllUsersData()
   }, [])
-  
+
   return (
     <View style={styles.container}>
-    <MyButton
+      <MyButton
         color={"#39D617"}
         text="BACK TO LOGIN PAGE"
         props={""}
         pressFunction={goBack}
       />
-      
+
       <View style={styles.users}>
-          <FlatList
+        <FlatList
           data={allData}
           renderItem={({ item }) => <ListItem data={item} setAllData={setAllData}></ListItem>}
           keyExtractor={item => item.id}
         >
         </FlatList>
       </View>
-     
 
-   </View>
+
+    </View>
   )
 }
 
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   fontTwo: {
     color: "#A8A8A8"
   },
-  container:{
+  container: {
     padding: 25,
     flex: 1,
     backgroundColor: "#3E3E3E",
